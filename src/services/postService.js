@@ -8,4 +8,3 @@ export const getAllPosts = async ()=> {
   let resp = await getRequest({url: BASE_URL})
   return resp
 }
-

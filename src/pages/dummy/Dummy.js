@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Layout from '../../components/layout/Layout'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllPostRequest } from '../../redux/actions/postAction'
@@ -9,10 +9,14 @@ import Loading from '../../components/loading/Loading'
 function Dummy() {
     const {loading, data, error } = useSelector( state => state.allProducts)
     const dispatch = useDispatch()
+    let isInitialMount = useRef(true)
 
     useEffect(()=>{
-        // if (!data?.products){   // use to stop api call 
-            dispatch(getAllPostRequest())
+        // if (!data?.products){   // use to cache api data not making again call 
+            if(isInitialMount.current){   // use to stop making more api call only one time call api
+                dispatch(getAllPostRequest())    
+                isInitialMount.current = false
+            }   
         // }
     }, [])
 
